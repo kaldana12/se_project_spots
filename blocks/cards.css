@@ -1,8 +1,5 @@
 .cards {
   padding-top: 20px;
-  font-family: Poppins;
-  font-size: 20px;
-  line-height: 24px;
   border-bottom: 1px rgba(33, 33, 33, 0.4) solid;
 }
 
@@ -14,4 +11,11 @@
   grid-template-columns: repeat(auto-fit, 413px);
   justify-content: center;
   gap: 40px 20px;
+}
+
+@media screen and (max-with: 627px) {
+  .cards__list {
+    grid-template-columns: repeat(auto-fit, 288px);
+    padding-bottom: 20px;
+  }
 }

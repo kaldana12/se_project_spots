@@ -20,6 +20,13 @@
   font-size: 32px;
   line-height: 1;
   color: #212121;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  line-clamp: 3;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  max-width: 420px;
 }
 
 .profile__description {
@@ -28,6 +35,12 @@
   font-size: 16px;
   line-height: 1;
   color: rgba(33, 33, 33, 0.7);
+  text-overflow: ellipsis;
+  overflow: hidden;
+  line-clamp: 3;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
 }
 
 .profile__edit-button {
@@ -70,4 +83,43 @@
 
 .profile__add:hover {
   background-color: rgba(33, 33, 33, 0.8);
+}
+
+@media screen and (max-width: 627px) {
+  .profile {
+    flex-direction: column;
+    max-width: 288px;
+    align-items: center;
+    text-align: center;
+    padding-top: 20px;
+  }
+
+  .profile__avatar {
+    margin: 0 0 12px;
+    width: 80px;
+    height: 80px;
+  }
+
+  .profile__title {
+    font-size: 20px;
+    margin: 0 0 6px;
+    max-width: 288px;
+  }
+  .profile__description {
+    margin: 0 0 32px;
+    max-width: 288px;
+  }
+
+  .profile__content {
+    margin: 0 0 20px;
+  }
+
+  .profile__edit {
+    margin-right: unset;
+    justify-content: center;
+  }
+
+  .profile__add {
+    margin-left: 0;
+  }
 }
