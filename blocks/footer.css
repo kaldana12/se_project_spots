@@ -1,6 +1,6 @@
 .footer {
   margin: 0;
-  padding: 60px 668px 60px;
+  padding: 60px 0;
 }
 .footer__copyright {
   color: rgba(33, 33, 33, 0.7);
@@ -10,6 +10,7 @@
   font-weight: 400;
   line-height: 1;
   align-items: center;
+  margin: 0;
 }
 
 @media screen and (max-width: 627px) {
