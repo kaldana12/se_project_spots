@@ -1,32 +1,38 @@
 const initialCards = [
   {
-    name: "Woman",
-    link: "https://unsplash.com/photos/a-woman-standing-in-front-of-a-mirror-brushing-her-teeth-vuwDHNmwvHQ",
+    name: "Val Thorens",
+    link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/spots/1-photo-by-moritz-feldmann-from-pexels.jpg",
+    alt: "val thorens photograph",
   },
 
   {
-    name: "Window",
-    link: "https://unsplash.com/photos/a-woman-standing-in-front-of-a-window-FXNvIe2XrZk",
+    name: "Restaurant Terrace",
+    link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/spots/2-photo-by-ceiline-from-pexels.jpg",
+    alt: "restaurant storefront",
   },
 
   {
-    name: "Building",
-    link: "https://unsplash.com/photos/a-black-and-white-photo-of-a-building-with-graffiti-on-it-cDzAdwff-8U",
+    name: "An outdoor cafe",
+    link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/spots/3-photo-by-tubanur-dogan-from-pexels.jpg",
+    alt: "italy cafe style",
   },
 
   {
-    name: "Camera",
-    link: "https://unsplash.com/photos/a-person-holding-a-camera-up-in-the-air-yEhrHJ3vDEI",
+    name: "A very long bridge, over the forest and through the trees",
+    link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/spots/4-photo-by-maurice-laschet-from-pexels.jpg",
+    alt: "outdoor wooden long bridewalk",
   },
 
   {
-    name: "Shadow",
-    link: "https://unsplash.com/photos/a-person-sitting-on-a-bench-in-the-dark-00rKfDokg_Y",
+    name: "Tunnel with morning light",
+    link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/spots/5-photo-by-van-anh-nguyen-from-pexels.jpg",
+    alt: "light at the end of the tunner",
   },
 
   {
-    name: "Snow",
-    link: "https://unsplash.com/photos/a-view-of-a-dome-on-top-of-a-building-in-the-snow-vfrdWR2Shmw",
+    name: "Mountain house",
+    link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/spots/6-photo-by-moritz-feldmann-from-pexels.jpg",
+    alt: "snowy cabbin",
   },
 ];
 
@@ -41,6 +47,24 @@ const editModalDescriptionInput = editModal.querySelector(
   "#profile-description-input"
 );
 const editFormInput = document.querySelector(".modal__form");
+
+const cardTemplate = document.querySelector("#card-template");
+const cardsList = document.querySelector(".cards__list");
+
+function getCardElement(data) {
+  const cardElement = cardTemplate.content
+    .querySelector(".card")
+    .cloneNode(true);
+
+  const cardNamedl = cardElement.querySelector(".card__title");
+  const cardImage = cardElement.querySelector(".card__image");
+
+  cardNamedl.textContent = data.name;
+  cardImage.src = data.link;
+  cardImage.textContent = data.alt;
+
+  return cardElement;
+}
 
 function openModal() {
   editModalNameInput.value = profileName.textContent;
@@ -62,3 +86,8 @@ function handleeditFormSubmit(evt) {
 profileEditButton.addEventListener("click", openModal);
 editModalCloseButton.addEventListener("click", closeModal);
 editFormInput.addEventListener("submit", handleeditFormSubmit);
+
+for (let i = 0; i < initialCards.length; i++) {
+  const cardElement = getCardElement(initialCards[i]);
+  cardsList.prepend(cardElement);
+}
