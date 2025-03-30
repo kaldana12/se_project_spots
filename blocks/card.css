@@ -42,6 +42,33 @@
   cursor: pointer;
 }
 
+.card__like-btn_liked {
+  background-image: url(../images/liked.svg);
+  opacity: 1;
+}
+
+.card__like-btn_liked:hover {
+  background-image: url(../images/likedhover.svg);
+}
+
+.card__delete-btn {
+  background-image: url(../images/bin.svg);
+  width: 32px;
+  height: 32px;
+  border: none;
+  background-color: transparent;
+  background-size: contain;
+  background-repeat: no-repeat;
+  position: relative;
+  top: 50px;
+  left: 371px;
+  cursor: pointer;
+}
+
+.card__delete-btn:hover {
+  background-image: url(../images/binhover.svg);
+}
+
 @media screen and (max-width: 627px) {
   .card__image {
     height: 288px;
