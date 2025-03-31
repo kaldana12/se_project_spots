@@ -43,12 +43,12 @@
 }
 
 .card__like-btn_liked {
-  background-image: url(../images/liked.svg);
+  background-image: url(../images/Union.svg);
   opacity: 1;
 }
 
 .card__like-btn_liked:hover {
-  background-image: url(../images/likedhover.svg);
+  background-image: url(../images/likednew.svg);
 }
 
 .card__delete-btn {

@@ -114,9 +114,15 @@ function handleeditFormSubmit(evt) {
 
 function handlecardFormSubmit(evt) {
   evt.preventDefault();
-  const inputValues = { name: cardModalNameInput.value, link: "" };
+  const inputValues = {
+    name: cardModalNameInput.value,
+    link: cardModalLinkInput.value,
+    alt: cardModalNameInput.value,
+  };
   const cardElement = getCardElement(inputValues);
   cardsList.prepend(cardElement);
+  cardModalNameInput.value = "";
+  cardModalLinkInput.value = "";
   closeModal(cardModal);
 }
 
