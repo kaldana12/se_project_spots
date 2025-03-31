@@ -79,4 +79,9 @@
     line-height: 1;
     margin: 12px 0 2px;
   }
+
+  .card__delete-btn {
+    top: 40px;
+    left: 246px;
+  }
 }
