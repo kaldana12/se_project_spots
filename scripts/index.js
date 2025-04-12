@@ -56,6 +56,7 @@ const cardName = document.querySelector(".card__title");
 const cardModalLinkInput = cardModal.querySelector("#add-card-link-input");
 const cardModalNameInput = cardModal.querySelector("#add-card-name-input");
 const cardFormInput = cardModal.querySelector(".modal__form");
+const cardSubmitBtn = cardModal.querySelector(".modal__submit-btn");
 
 const cardTemplate = document.querySelector("#card-template");
 const cardsList = document.querySelector(".cards__list");
@@ -123,6 +124,8 @@ function handlecardFormSubmit(evt) {
   cardsList.prepend(cardElement);
   cardModalNameInput.value = "";
   cardModalLinkInput.value = "";
+  evt.target.reset();
+  disabledButton(cardSubmitBtn, settings);
   closeModal(cardModal);
 }
 
@@ -148,6 +151,32 @@ previewModalCloseButton.addEventListener("click", () => {
 
 editFormInput.addEventListener("submit", handleeditFormSubmit);
 cardFormInput.addEventListener("submit", handlecardFormSubmit);
+
+editModal.addEventListener("click", (evt) => {
+  if (evt.target === editModal) {
+    closeModal(editModal);
+  }
+});
+
+cardModal.addEventListener("click", (evt) => {
+  if (evt.target === cardModal) {
+    closeModal(cardModal);
+  }
+});
+
+previewModal.addEventListener("click", (evt) => {
+  if (evt.target === previewModal) {
+    closeModal(previewModal);
+  }
+});
+
+document.addEventListener("keydown", (evt) => {
+  if (evt.key === "Escape") {
+    closeModal(editModal);
+    closeModal(cardModal);
+    closeModal(previewModal);
+  }
+});
 
 initialCards.forEach((item) => {
   const cardElement = getCardElement(item);

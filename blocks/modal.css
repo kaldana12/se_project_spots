@@ -17,7 +17,6 @@
 
 .modal_opened {
   visibility: visible;
-  transition: opacity 0.5s linear;
   opacity: 1;
 }
 
@@ -79,7 +78,6 @@
 .modal__label {
   display: flex;
   flex-direction: column;
-  gap: 8px;
   margin-bottom: 32px;
   color: #212121b2;
   opacity: 0.7;
@@ -95,6 +93,7 @@
   font-weight: 500;
   font-size: 20px;
   line-height: 1;
+  margin: 8px 0 0;
 }
 
 .modal__submit-btn {
@@ -103,6 +102,11 @@
   border-radius: 8px;
   background-color: #212121;
   color: #fcf5e5;
+  cursor: pointer;
+}
+
+.modal__submit-btn-disabled {
+  opacity: 0.5;
   cursor: pointer;
 }
 
@@ -125,6 +129,12 @@
   padding: 4px 8px;
   width: fit-content;
   font-family: Poppins, Arial, Helvetica, sans-serif;
+}
+.modal__error {
+  display: block;
+  color: #ff0000b2;
+  font-size: 16px;
+  margin-top: 8px;
 }
 
 @media screen and (max-width: 627px) {
