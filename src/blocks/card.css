@@ -1,3 +1,6 @@
+.card {
+  position: relative;
+}
 .card__image {
   height: 413px;
   width: 100%;
@@ -59,9 +62,9 @@
   background-color: transparent;
   background-size: contain;
   background-repeat: no-repeat;
-  position: relative;
-  top: 50px;
+  bottom: 403px;
   left: 371px;
+  position: relative;
   cursor: pointer;
 }
 
