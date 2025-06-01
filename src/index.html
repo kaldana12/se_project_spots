@@ -153,12 +153,15 @@
 
       <div class="modal" id="preview-modal">
         <div class="modal__content modal__content_type_preview">
-          <button
-            type="button"
-            class="modal__close-btn modal__close-btn_type_preview"
-          ></button>
-          <img class="modal__image" src="#" alt="" />
-          <p class="modal__caption"></p>
+          <div class="modal__preview-wrapper">
+            <button
+              type="button"
+              class="modal__close-btn modal__close-btn_type_preview"
+            ></button>
+
+            <img class="modal__image" src="#" alt="" />
+            <p class="modal__caption"></p>
+          </div>
         </div>
       </div>
 
@@ -171,7 +174,7 @@
               >Profile Picture
               <input
                 id="profile-avatar-input"
-                type="text"
+                type="url"
                 name="avatar"
                 class="modal__input"
                 placeholder="Paste the link to an image"

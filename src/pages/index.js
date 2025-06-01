@@ -5,10 +5,11 @@ import { resetValidation } from "../scripts/validation.js";
 import { enableValidation } from "../scripts/validation.js";
 import avatarSrc from "../images/avatar.jpg";
 import Api from "../utils/api.js";
-import { setButtonText } from "../utils/helpers.js";
+import { handleSubmit } from "../utils/helpers.js";
 
 const avatarImage = document.getElementById("image-avatar");
 avatarImage.src = avatarSrc;
+const profileDescription = document.querySelector(".profile__description");
 
 const api = new Api({
   baseUrl: "https://around-api.en.tripleten-services.com/v1",
@@ -17,6 +18,7 @@ const api = new Api({
     "Content-Type": "application/json",
   },
 });
+const profileName = document.querySelector(".profile__title");
 
 api
   .getAppInfo()
@@ -28,13 +30,10 @@ api
       const cardElement = getCardElement(item);
       cardsList.prepend(cardElement);
     });
-    const profileImage = document.querySelector("#image-avatar");
-    profileImage.src = users.avatar;
 
-    const profileTitle = document.querySelector(".profile__title");
-    const profileDescription = document.querySelector(".profile__description");
+    avatarImage.src = avatarSrc;
 
-    profileTitle.textContent = users.name; // We might need to adjust this property name
+    profileName.textContent = users.name; // We might need to adjust this property name
     profileDescription.textContent = users.about;
   })
   .catch(console.error);
@@ -42,8 +41,6 @@ api
 const profileEditButton = document.querySelector(".profile__edit-button");
 const cardModalButton = document.querySelector(".profile__add-button");
 const avatarModalButton = document.querySelector(".profile__avatar-btn");
-const profileName = document.querySelector(".profile__title");
-const profileDescription = document.querySelector(".profile__description");
 
 //Avatar form elements
 const avatarModal = document.querySelector("#avatar-modal");
@@ -137,87 +134,63 @@ function getCardElement(data) {
   return cardElement;
 }
 
-function handleeditFormSubmit(evt) {
+function handleEditFormSubmit(evt) {
   evt.preventDefault();
+  function makeRequest() {
+    return api
+      .editUserInfo({
+        name: editModalNameInput.value,
+        about: editModalDescriptionInput.value,
+      })
+      .then((data) => {
+        profileName.textContent = data.name;
+        profileDescription.textContent = data.about;
+        closeModal(editModal);
+      });
+  }
 
-  const submitBtn = evt.submitter;
-  setButtonText(submitBtn, true);
-
-  api
-    .editUserInfo({
-      name: editModalNameInput.value,
-      about: editModalDescriptionInput.value,
-    })
-    .then((data) => {
-      profileName.textContent = data.name;
-      profileDescription.textContent = data.about;
-      closeModal(editModal);
-    })
-    .catch(console.error)
-    .finally(() => {
-      setButtonText(submitBtn, true);
-    });
+  handleSubmit(makeRequest, evt);
 }
 
-function handlecardFormSubmit(evt) {
-  evt.preventDefault();
+function handleCardFormSubmit(evt) {
+  function makeRequest() {
+    return api
+      .addCard({
+        name: cardModalNameInput.value,
+        link: cardModalLinkInput.value,
+      })
+      .then((cardData) => {
+        const cardElement = getCardElement(cardData);
+        cardsList.prepend(cardElement);
+        disabledButton(cardSubmitBtn, settings);
+        closeModal(cardModal);
+      });
+  }
 
-  const submitBtn = evt.submitter;
-  setButtonText(submitBtn, true);
-
-  api
-    .addCard({
-      name: cardModalNameInput.value,
-      link: cardModalLinkInput.value,
-    })
-    .then((cardData) => {
-      const cardElement = getCardElement(cardData);
-      cardsList.prepend(cardElement);
-      evt.target.reset();
-      disabledButton(cardSubmitBtn, settings);
-      closeModal(cardModal);
-    })
-    .catch(console.error)
-    .finally(() => {
-      setButtonText(submitBtn, true);
-    });
+  handleSubmit(makeRequest, evt);
 }
 
 function handleAvatarSubmit(evt) {
-  evt.preventDefault();
-
-  const submitBtn = evt.submitter;
-  setButtonText(submitBtn, true);
-
-  api
-    .editAvatarInfo(avatarInput.value)
-    .then((data) => {
-      document.getElementById("image-avatar").src = data.avatar;
+  function makeRequest() {
+    return api.editAvatarInfo(avatarInput.value).then((data) => {
+      avatarImage.src = data.avatar;
       closeModal(avatarModal);
-      avatarForm.reset();
-    })
-    .catch(console.error)
-    .finally(() => {
-      setButtonText(submitBtn, true);
     });
+  }
+
+  handleSubmit(makeRequest, evt);
 }
 
 function handleDeleteSubmit(evt) {
   evt.preventDefault();
-
-  const submitBtn = evt.submitter;
-  setButtonText(submitBtn, true, "Delete", "Deleting...");
-
-  api
-    .deleteCard(selectedCardId)
-    .then(() => {
+  function makeRequest() {
+    return api.deleteCard(selectedCardId).then(() => {
       selectedCard.remove();
       closeModal(deleteModal);
-    })
-    .catch(console.error)
-    .finally(() => {
-      setButtonText(submitBtn, true, "Delete", "Deleting...");
     });
+  }
+
+  handleSubmit(makeRequest, evt, "Deleting...");
 }
 
 function handleDeleteCard(cardElement, cardId) {
@@ -268,8 +241,8 @@ deleteCancelButton.addEventListener("click", () => {
   closeModal(deleteModal);
 });
 
-editFormInput.addEventListener("submit", handleeditFormSubmit);
-cardFormInput.addEventListener("submit", handlecardFormSubmit);
+editFormInput.addEventListener("submit", handleEditFormSubmit);
+cardFormInput.addEventListener("submit", handleCardFormSubmit);
 
 avatarModalButton.addEventListener("click", () => {
   openModal(avatarModal);
@@ -279,22 +252,13 @@ avatarModalCloseBttn.addEventListener("click", () => {
 });
 avatarForm.addEventListener("submit", handleAvatarSubmit);
 
-editModal.addEventListener("click", (evt) => {
-  if (evt.target === editModal) {
-    closeModal(editModal);
-  }
-});
-
-cardModal.addEventListener("click", (evt) => {
-  if (evt.target === cardModal) {
-    closeModal(cardModal);
-  }
-});
-
-previewModal.addEventListener("click", (evt) => {
-  if (evt.target === previewModal) {
-    closeModal(previewModal);
-  }
+// Universal overlay click handler for all modals
+document.querySelectorAll(".modal").forEach((modal) => {
+  modal.addEventListener("click", (evt) => {
+    if (evt.target === modal) {
+      closeModal(modal);
+    }
+  });
 });
 
 deleteForm.addEventListener("submit", handleDeleteSubmit);
